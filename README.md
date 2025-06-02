@@ -25,7 +25,7 @@ python3 -m venv venv
 source venv/bin/activate  # Windows 使用 venv\Scripts\activate
 pip install -r requirements.txt
 
-
+---
 ### 2. 创建 .env 文件
 #
 API_ID=你的API_ID
