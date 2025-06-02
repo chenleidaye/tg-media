@@ -17,7 +17,7 @@ channel_input = os.getenv("CHANNEL_INPUT")
 if not channel_input:
     raise ValueError("❌ 未设置频道用户名或链接，请设置 CHANNEL_INPUT 环境变量")
 
-target_tag = os.getenv("TARGET_TAG", "#jinricp")
+target_tag = os.getenv("TARGET_TAG", "#mychannel")
 
 # 设置代理（如有）
 proxy = ('socks5', proxy_host, proxy_port) if proxy_host and proxy_port else None
