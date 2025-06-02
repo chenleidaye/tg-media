@@ -21,7 +21,7 @@ python main.py
 请输入要搜索的视频标签（例如 #jinricp）：#jinricp
 
 
-docker run --rm -it \
+docker run -d -it \
   -e API_ID=你的api_id \
   -e API_HASH=你的api_hash \
   -e PROXY_HOST=127.0.0.1 \
