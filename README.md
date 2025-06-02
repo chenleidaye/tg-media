@@ -25,7 +25,8 @@ python3 -m venv venv
 source venv/bin/activate  # Windows 使用 venv\Scripts\activate
 pip install -r requirements.txt
 
----
+exit
+
 ### 2. 创建 .env 文件
 #
 API_ID=你的API_ID
@@ -34,6 +35,16 @@ CHANNEL_INPUT=频道用户名或邀请链接（如 jinricp 或 https://t.me/xxxx
 TARGET_TAG=#视频标签
 MESSAGE_LIMIT=要扫描的消息数量（可选，默认200）
 SESSION_NAME=session
+
+### 3. 运行
+
+python generate_session.py
+
+
+二、生成 Telegram 登录会话（可选）
+
+
+
 
 ## 环境变量配置
 
