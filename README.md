@@ -1,19 +1,39 @@
-# Telegram 频道视频批量下载器
+# Telegram Video Downloader
 
-使用 Python 和 Telethon 库，从指定 Telegram 频道批量下载带指定标签的视频，支持代理和环境变量配置，适合 Docker 后台运行。
+基于 [Telethon](https://github.com/LonamiWebs/Telethon) 的 Telegram 视频下载器，通过标签从指定频道批量下载视频，支持 Docker 一键部署，支持速率显示与原始文件名保存。
+
+## ✨ 功能特性
+
+- ✅ 根据标签从频道中批量下载视频
+- ✅ 支持原始文件名保存
+- ✅ 支持下载速率实时显示（Mbps）
+- ✅ 支持自定义下载数量
+- ✅ 支持 Docker 容器后台运行
+- ✅ 自动使用 `.env` 或环境变量配置
+- ✅ 支持使用 `.session` 文件免交互登录
 
 ---
 
-## 功能特点
+## 📦 使用方式
 
-- 支持通过频道用户名或邀请链接获取频道
-- 支持按视频消息中指定标签筛选下载
-- 保留视频原始文件名保存
-- 支持 SOCKS5 代理
-- 下载过程显示实时进度和速率（Mbps）
-- 支持环境变量配置，方便 Docker 无人值守运行
+### 一、Python 本地运行
 
----
+#### 1. 安装依赖
+
+```bash
+python3 -m venv venv
+source venv/bin/activate  # Windows 使用 venv\Scripts\activate
+pip install -r requirements.txt
+
+
+### 2. 创建 .env 文件
+#
+API_ID=你的API_ID
+API_HASH=你的API_HASH
+CHANNEL_INPUT=频道用户名或邀请链接（如 jinricp 或 https://t.me/xxxx）
+TARGET_TAG=#视频标签
+MESSAGE_LIMIT=要扫描的消息数量（可选，默认200）
+SESSION_NAME=session
 
 ## 环境变量配置
 
