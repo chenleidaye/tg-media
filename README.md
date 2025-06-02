@@ -24,8 +24,7 @@
 | `PROXY_HOST`  | SOCKS5 代理地址（可选）          | 否   | `127.0.0.1`    |
 | `PROXY_PORT`  | SOCKS5 代理端口（可选）          | 否   | `7890`         |
 | `CHANNEL_INPUT` | 频道用户名或完整邀请链接        | 是   | `mychannel` 或 `https://t.me/mychannel` |
-| `TARGET_TAG`  | 视频消息中筛选的标签（可选）     | 否   | `#jinricp`     |
-| 变量名             | 说明              | 必填 | 示例    |
+| `TARGET_TAG`  | 视频消息中筛选的标签（可选）     | 否   | `#mychannel`     |
 | `MESSAGE_LIMIT` | 最多拉取消息条数，默认 200 | 否  | `500` |
 
 ---
@@ -41,6 +40,8 @@ PROXY_HOST=127.0.0.1
 PROXY_PORT=7890
 CHANNEL_INPUT=mychannel
 TARGET_TAG=#jinricp
+MESSAGE_LIMIT=500
+
 如果不使用代理，PROXY_HOST 和 PROXY_PORT 可留空或不设置。
 
 2. 运行脚本
