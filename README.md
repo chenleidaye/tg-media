@@ -57,28 +57,35 @@ Docker 使用示例
 
 docker build -t telegram-video-downloader .
 
-docker run -d --name tvd \
-  -e API_ID=1234567 \
-  -e API_HASH=abcdef1234567890abcdef1234567890 \
-  -e PROXY_HOST=127.0.0.1 \
-  -e PROXY_PORT=7890 \
-  -e CHANNEL_INPUT=mychannel \
-  -e TARGET_TAG=#jinricp \
-  -e MESSAGE_LIMIT=500 \
-  -v $(pwd)/downloads:/app/downloads \
-  telegram-video-downloader
-docker pull 你的用户名/telegram-video-downloader:latest
+第一次运行时，你需要执行容器的交互式终端登录：
 
+docker run -it --rm \
+  -e API_ID=xxx \
+  -e API_HASH=yyy \
+  -v /path/to/session:/app/session \
+  your-image-name python main.py
+交互完成登录后，session.session 会保存在你本地的 /path/to/session 文件夹内。
+
+后续启动容器时，挂载同一个目录即可实现无交互运行：
 docker run -d --name tvd \
-  -e API_ID=你的API_ID \
-  -e API_HASH=你的API_HASH \
-  -e CHANNEL_INPUT=频道用户名或邀请链接 \
-  -e TARGET_TAG=#标签 \
+  -e API_ID=xxx \
+  -e API_HASH=yyy \
+  -e CHANNEL_INPUT=xxx \
+  -e TARGET_TAG=#tag \
   -e MESSAGE_LIMIT=100 \
-  -e PHONE=你的手机号(首次登录用) \
-  -v /你的下载目录绝对路径:/app/downloads \
-  你的用户名/telegram-video-downloader:latest
+  -v /path/to/session:/app/session \
+  -v /downloads:/app/downloads \
+  your-image-name
 
+docker run -d --name tvd \
+  -e API_ID=xxx \
+  -e API_HASH=yyy \
+  -e CHANNEL_INPUT=xxx \
+  -e TARGET_TAG=#tag \
+  -e MESSAGE_LIMIT=100 \
+  -v /path/to/session:/app/session \
+  -v /downloads:/app/downloads \
+  your-image-name
 
 查看日志
 docker logs -f tvd
