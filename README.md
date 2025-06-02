@@ -12,39 +12,6 @@
 - ✅ 自动使用 `.env` 或环境变量配置
 - ✅ 支持使用 `.session` 文件免交互登录
 
----
-
-## 📦 使用方式
-
-### 一、Python 本地运行
-
-#### 1. 安装依赖
-
-```bash
-python3 -m venv venv
-source venv/bin/activate  # Windows 使用 venv\Scripts\activate
-pip install -r requirements.txt
-
-exit
-
-### 2. 创建 .env 文件
-#
-API_ID=你的API_ID
-API_HASH=你的API_HASH
-CHANNEL_INPUT=频道用户名或邀请链接（如 jinricp 或 https://t.me/xxxx）
-TARGET_TAG=#视频标签
-MESSAGE_LIMIT=要扫描的消息数量（可选，默认200）
-SESSION_NAME=session
-
-### 3. 运行
-
-python generate_session.py
-
-
-二、生成 Telegram 登录会话（可选）
-
-
-
 
 ## 环境变量配置
 
@@ -60,63 +27,93 @@ python generate_session.py
 | TARGET\_TAG    | 搜索的视频标签           | #jinricp                                                     | 是              |
 | MESSAGE\_LIMIT | 最大拉取消息数           | 100                                                          | 否，默认100        |
 | DOWNLOAD\_DIR  | 视频下载目录            | downloads                                                    | 否，默认 downloads |
+| SESSION_NAME  | 会话文件名           | session                                                    | 否，默认 downloads |
 
+🧪 示例输出
 
+```bash
 ---
+✅ 频道名称: 今日资源
+📌 频道 ID: -1001234567890
 
-## 快速开始
+🎥 开始下载: downloads/video.mp4
+下载进度: 87.23% (16343298/18728393 bytes) 速度: 6.34 Mbps
+✅ 下载完成！共下载 5 个视频
+````
 
-### 1. 准备 `.env` 文件
+## 📦 使用方式
 
-```dotenv
-API_ID=1234567
-API_HASH=abcdef1234567890abcdef1234567890
-PROXY_HOST=127.0.0.1
-PROXY_PORT=7890
-CHANNEL_INPUT=mychannel
-TARGET_TAG=#jinricp
-MESSAGE_LIMIT=500
+### 一、Python 本地运行
 
-如果不使用代理，PROXY_HOST 和 PROXY_PORT 可留空或不设置。
+#### 1. 安装依赖
 
-2. 运行脚本
+```bash
+python3 -m venv venv
+source venv/bin/activate  # Windows 使用 venv\Scripts\activate
+pip install -r requirements.txt
+````
+
+### 2. 创建 .env 文件
+
+```bash
+API_ID=你的API_ID
+API_HASH=你的API_HASH
+CHANNEL_INPUT=频道用户名或邀请链接（如 jinricp 或 https://t.me/xxxx）
+TARGET_TAG=#视频标签
+MESSAGE_LIMIT=要扫描的消息数量（可选，默认200）
+SESSION_NAME=session
+````
+
+### 3. 运行
+```bash
 python main.py
-程序自动读取 .env，连接 Telegram，遍历频道最近 200 条消息，下载包含指定标签的视频文件。
+````
 
-Docker 使用示例
-##构建镜像
+二、生成 Telegram 登录会话（可选）
+你可以通过以下脚本生成 .session 文件以便免交互使用：
 
+```bash
+python generate_session.py
+````
+
+环境变量支持：
+```bash
+API_ID=xxx
+API_HASH=xxx
+PHONE=+86手机号
+SESSION_NAME=session
+````
+
+
+🐳 Docker 使用
+
+##1. 构建镜像（本地开发用）
+
+```bash
 docker build -t telegram-video-downloader .
+````
 
-第一次运行时，你需要执行容器的交互式终端登录：
 
-docker run -it --rm \
-  -e API_ID=xxx \
-  -e API_HASH=yyy \
-  -v /path/to/session:/app/session \
-  your-image-name python main.py
-交互完成登录后，session.session 会保存在你本地的 /path/to/session 文件夹内。
+## 2.运行
+```bash
+docker run -d --name tvd \                            # 后台运行容器，命名为 tvd
+  -e API_ID=xxxx \                                    # 设置 Telegram 的 API_ID（必须在 https://my.telegram.org 获取）
+  -e API_HASH=xxxx \                                  # 设置 Telegram 的 API_HASH
+  -e CHANNEL_INPUT=abcd \                             # 要爬取的频道用户名或邀请链接，例如 'abcd' 或 'https://t.me/xxxx'
+  -e TARGET_TAG=#abcd \                               # 要匹配的标签，只有带此标签的视频才会被下载
+  -e MESSAGE_LIMIT=200 \                              # 最多从频道中读取多少条消息（避免过多遍历）
+  -e PROXY_HOST=your.proxy.ip \                       # 设置 SOCKS5 代理地址（可选）
+  -e PROXY_PORT=10808 \                               # 设置 SOCKS5 代理端口（可选）
+  -v /downloads:/app/downloads \                      # 将宿主机的 /downloads 映射为容器内的下载目录 /app/downloads
+  gvddf/telegram-video-downloader                     # 使用你发布的镜像 gvddf/telegram-video-downloader
+````
 
-后续启动容器时，挂载同一个目录即可实现无交互运行：
-docker run -d --name tvd \
-  -e API_ID=xxx \
-  -e API_HASH=yyy \
-  -e CHANNEL_INPUT=xxx \
-  -e TARGET_TAG=#tag \
-  -e MESSAGE_LIMIT=100 \
-  -v /path/to/session:/app/session \
-  -v /downloads:/app/downloads \
-  your-image-name
 
-docker run -d --name tvd \
-  -e API_ID=xxx \
-  -e API_HASH=yyy \
-  -e CHANNEL_INPUT=xxx \
-  -e TARGET_TAG=#tag \
-  -e MESSAGE_LIMIT=100 \
-  -v /path/to/session:/app/session \
-  -v /downloads:/app/downloads \
-  your-image-name
+ # 🔐 如果未提前生成 .session，首次运行将失败，请先运行 generate_session.py 并挂载 .session 文件：
 
-查看日志
-docker logs -f tvd
+
+```bash
+
+ -v /本地/session文件路径:/app/session.session
+
+````
