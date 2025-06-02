@@ -17,15 +17,19 @@
 
 ## 环境变量配置
 
-| 变量名        | 说明                             | 必填 | 示例           |
-|---------------|----------------------------------|------|----------------|
-| `API_ID`      | Telegram API ID                  | 是   | `1234567`      |
-| `API_HASH`    | Telegram API Hash                | 是   | `abcdef123456` |
-| `PROXY_HOST`  | SOCKS5 代理地址（可选）          | 否   | `127.0.0.1`    |
-| `PROXY_PORT`  | SOCKS5 代理端口（可选）          | 否   | `7890`         |
-| `CHANNEL_INPUT` | 频道用户名或完整邀请链接        | 是   | `mychannel` 或 `https://t.me/mychannel` |
-| `TARGET_TAG`  | 视频消息中筛选的标签（可选）     | 否   | `#mychannel`     |
-| `MESSAGE_LIMIT` | 最多拉取消息条数，默认 200 | 否  | `500` |
+| 变量名            | 说明                | 示例                                                           | 必须             |
+| -------------- | ----------------- | ------------------------------------------------------------ | -------------- |
+| API\_ID        | Telegram API ID   | 1234567                                                      | 是              |
+| API\_HASH      | Telegram API HASH | abcd1234efgh5678                                             | 是              |
+| PHONE          | 登录手机号，国际格式（首次登录）  | +8613812345678                                               | 否（首次登录必填）      |
+| BOT\_TOKEN     | Bot 令牌，替代手机号登录    | 123456\:ABC-DEF1234                                          | 否              |
+| PROXY\_HOST    | 代理服务器地址           | 127.0.0.1                                                    | 否              |
+| PROXY\_PORT    | 代理端口              | 7890                                                         | 否              |
+| CHANNEL\_INPUT | 频道用户名或邀请链接        | mychannel 或 [https://t.me/mychannel](https://t.me/mychannel) | 是              |
+| TARGET\_TAG    | 搜索的视频标签           | #jinricp                                                     | 是              |
+| MESSAGE\_LIMIT | 最大拉取消息数           | 100                                                          | 否，默认100        |
+| DOWNLOAD\_DIR  | 视频下载目录            | downloads                                                    | 否，默认 downloads |
+
 
 ---
 
@@ -63,6 +67,17 @@ docker run -d --name tvd \
   -e MESSAGE_LIMIT=500 \
   -v $(pwd)/downloads:/app/downloads \
   telegram-video-downloader
+docker pull 你的用户名/telegram-video-downloader:latest
+
+docker run -d --name tvd \
+  -e API_ID=你的API_ID \
+  -e API_HASH=你的API_HASH \
+  -e CHANNEL_INPUT=频道用户名或邀请链接 \
+  -e TARGET_TAG=#标签 \
+  -e MESSAGE_LIMIT=100 \
+  -e PHONE=你的手机号(首次登录用) \
+  -v /你的下载目录绝对路径:/app/downloads \
+  你的用户名/telegram-video-downloader:latest
 
 
 查看日志
