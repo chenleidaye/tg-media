@@ -32,7 +32,7 @@ _last_bytes = 0
 
 def progress_callback(current, total):
     global _last_time, _last_bytes
-    now = time.time()
+    现在 = time.time()
     if _last_time is None:
         _last_time = now
         _last_bytes = current
@@ -55,7 +55,8 @@ with TelegramClient("session", api_id, api_hash, proxy=proxy) as client:
         print(f"✅ 频道名称: {entity.title}")
         print(f"📌 频道 ID: -100{entity.id}")
 
-        messages = client.iter_messages(entity, limit=200)
+        messages = client.iter_messages(entity, limit=message_limit)
+
         count = 0
 
         for msg in messages:
