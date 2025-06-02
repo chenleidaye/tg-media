@@ -105,7 +105,7 @@ docker run -d --name tvd \                            # 后台运行容器，命
   -e PROXY_HOST=your.proxy.ip \                       # 设置 SOCKS5 代理地址（可选）
   -e PROXY_PORT=10808 \                               # 设置 SOCKS5 代理端口（可选）
   -v /downloads:/app/downloads \                      # 将宿主机的 /downloads 映射为容器内的下载目录 /app/downloads
-  gvddf/telegram-video-downloader                     # 使用你发布的镜像 gvddf/telegram-video-downloader
+ telegram-video-downloader                            # 使用你发布的镜像 telegram-video-downloader
 ````
 
 
