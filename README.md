@@ -60,8 +60,10 @@ docker run -d --name tvd \
   -e PROXY_PORT=7890 \
   -e CHANNEL_INPUT=mychannel \
   -e TARGET_TAG=#jinricp \
+  -e MESSAGE_LIMIT=500 \
   -v $(pwd)/downloads:/app/downloads \
   telegram-video-downloader
+
 
 查看日志
 docker logs -f tvd
